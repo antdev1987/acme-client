@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import { useAppProvider } from "../context/appContext/AppProvider";
 
 const Busqueda = () => {
-  return (
-    <div>Busqueda</div>
-  )
-}
+  const { casoBd } = useAppProvider();
 
-export default Busqueda
+  return <div>Busqueda</div>;
+};
+
+export default Busqueda;

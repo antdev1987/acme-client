@@ -1,26 +1,28 @@
 import React from "react";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { AppProvider } from "./context/appContext/AppProvider";
+import PrivateRouteAdmin from "./pages/permissions/PrivateRouteAdmin";
 import NavBar from "./layout/NavBar";
 import Busqueda from "./pages/Busqueda";
-import Mantencion from "./pages/Mantencion";
-import PrivateRouteAdmin from "./pages/permissions/PrivateRouteAdmin";
+import BaseDatos from "./pages/BaseDatos";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route>
-          <Route path="/busqueda" element={<Busqueda />} />
-        </Route>
+      <AppProvider>
+        <NavBar />
+        <Routes>
 
-        <Route element={<PrivateRouteAdmin />}>
-          <Route path="/admin/mantencion" element={<Mantencion />} />
-        </Route>
+          <Route>
+            <Route path="/busqueda" element={<Busqueda />} />
+          </Route>
 
-        
-      </Routes>
+          <Route element={<PrivateRouteAdmin />}>
+            <Route path="/admin/basedatos" element={<BaseDatos />} />
+          </Route>
+        </Routes>
+      </AppProvider>
     </BrowserRouter>
   );
 };
