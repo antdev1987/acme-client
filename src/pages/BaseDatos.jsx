@@ -13,7 +13,7 @@ const BaseDatos = () => {
   const [bd,setBd]=useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [unableSubmit,setUnableSubmit] = useState(false)
-  const { cargarBDAppfn } = useAppProvider();
+  const { cargarBDAppfn,casoBd } = useAppProvider();
 
   const handleSubmit=()=>{
     console.log('hola')
