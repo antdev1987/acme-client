@@ -6,6 +6,7 @@ import PrivateRouteAdmin from "./pages/permissions/PrivateRouteAdmin";
 import NavBar from "./layout/NavBar";
 import Busqueda from "./pages/Busqueda";
 import BaseDatos from "./pages/BaseDatos";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
@@ -15,12 +16,17 @@ const App = () => {
         <Routes>
 
           <Route>
+            <Route path='/' element={<Login />}/>
+          </Route>
+
+          <Route>
             <Route path="/busqueda" element={<Busqueda />} />
           </Route>
 
           <Route element={<PrivateRouteAdmin />}>
             <Route path="/admin/basedatos" element={<BaseDatos />} />
           </Route>
+          
         </Routes>
       </AppProvider>
     </BrowserRouter>
