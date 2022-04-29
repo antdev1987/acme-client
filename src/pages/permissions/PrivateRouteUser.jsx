@@ -2,20 +2,20 @@ import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../../context/appContext/userContext/UserProvider'
 
-const PrivateRouteAdmin = () => {
+const PrivateRouteUser = () => {
 
   const {user} = useAuth()
 
-  //const user = {name:'manuel',role:'admin'}
 
+  
 
   return (
     
     <>
 
-    {user.role === 'admin' ?(
+    {user.role === 'user' || user.role === 'admin' ?(
         <Outlet />
-    ):<Navigate to='/busqueda'/>}
+    ):<Navigate to='/'/>}
     
     </>
 
@@ -24,4 +24,4 @@ const PrivateRouteAdmin = () => {
   )
 }
 
-export default PrivateRouteAdmin
+export default PrivateRouteUser

@@ -10,32 +10,39 @@ import { useAppProvider } from "../context/appContext/AppProvider";
 const BaseDatos = () => {
   const [casos, setCasos] = useState([]);
   const [acciones, setAcciones] = useState([]);
-  const [bd,setBd]=useState([])
+  const [relateBd, setRelateBd] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [unableSubmit,setUnableSubmit] = useState(false)
-  const { cargarBDAppfn,casoBd } = useAppProvider();
+  const [unableSubmit, setUnableSubmit] = useState(false);
+  const { cargarBDAppfn,deleteBDAppfn, casoBd } = useAppProvider();
 
-  const handleSubmit=()=>{
-    console.log('hola')
-    cargarBDAppfn(bd);
-    setCasos([])
-    setAcciones([])
-  }
+  const handleSubmit = () => {
+    console.log("hola");
+    setIsLoading(true)
+    cargarBDAppfn(relateBd,setIsLoading);
+    setCasos([]);
+    setAcciones([]);
+  };
 
   const handleRelate = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     setTimeout(() => {
-      casos.forEach((item,idx) => {
+      casos.forEach((item, idx) => {
         //console.log(casos[idx])
-        casos[idx]["acciones"]=(acciones.filter(e => e['N°deCaso'] === item['N° CASO']))
+        casos[idx]["acciones"] = acciones.filter(
+          (e) => e["N°deCaso"] === item["N° CASO"]
+        );
       });
-      setBd(casos)
-      setIsLoading(false)
-      setUnableSubmit(true)
+      setRelateBd(casos);
+      setIsLoading(false);
+      setUnableSubmit(true);
     }, 0);
   };
 
-  console.log(bd)
+  const handleDelete =()=>{
+    deleteBDAppfn()
+  }
+
+  console.log(relateBd);
 
   const handleFileCaso = async (e) => {
     //hay que implementar esta condicion luego para que solo se pueda subir la base de datos correcta
@@ -55,6 +62,7 @@ const BaseDatos = () => {
     const workbook = XLSX.read(data, { cellDates: true });
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     const jsonData = XLSX.utils.sheet_to_row_object_array(worksheet);
+    console.log(jsonData);
     setCasos(jsonData);
     setIsLoading(false);
   };
@@ -82,7 +90,9 @@ const BaseDatos = () => {
       spinner
       text="Loading your content..."
     >
-      <div className="text-center pt-4 vh-100 border">
+      {casoBd.length <=0 ?(
+
+        <div className="text-center pt-4 vh-100 border">
         <h1>Parse Base de Datos Excel</h1>
 
         <div className="border border-5 w-50 mx-auto p-2 mb-3">
@@ -91,6 +101,7 @@ const BaseDatos = () => {
           </label>
           <input type="file" onChange={(e) => handleFileCaso(e)} />
         </div>
+
 
         {casos.length > 0 && (
           <div className="border border-5 w-50 mx-auto p-2 mb-3">
@@ -103,12 +114,20 @@ const BaseDatos = () => {
 
         {acciones.length > 0 && (
           <div>
-            <button onClick={unableSubmit ? handleSubmit : handleRelate} className="btn btn-info">
-              {unableSubmit ? 'Cargar Base de Datos' : 'Crear Relacion'}
+            <button
+              onClick={unableSubmit ? handleSubmit : handleRelate}
+              className="btn btn-info"
+            >
+              {unableSubmit ? "Cargar Base de Datos" : "Crear Relacion"}
             </button>
           </div>
         )}
+
+
       </div>
+        ):(
+          <button onClick={handleDelete}>reset base de datos</button>
+        )}
     </LoadingOverlay>
   );
 };

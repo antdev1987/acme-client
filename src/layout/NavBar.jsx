@@ -6,35 +6,50 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/appContext/userContext/UserProvider";
 
 const NavBar = () => {
+  const { user, logoutUserfn } = useAuth();
+
   return (
     <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">Aplicativo Acme</Navbar.Brand>
+
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mx-auto">
-            <Nav.Link as={NavLink} to="/busqueda">
-              Busqueda
-            </Nav.Link>
-          </Nav>
-          <Nav>
-            <NavDropdown title="Profile" id="collasible-nav-dropdown">
-              <NavDropdown.Item as={NavLink} to="/admin/basedatos">
-                Base de Datos
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+
+        {user?.role && (
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mx-auto">
+              <Nav.Link as={NavLink} to="/busqueda">
+                Busqueda
+              </Nav.Link>
+            </Nav>
+            <Nav>
+              <NavDropdown title={user.nombre} id="collasible-nav-dropdown">
+                {user.role === "admin" && (
+                  <NavDropdown.Item as={NavLink} to="/admin/basedatos">
+                    Base de Datos
+                  </NavDropdown.Item>
+                )}
+
+                <NavDropdown.Item href="#action/3.2">
+                  Another action
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">
+                  Something
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  href="#action/3.4"
+                  onClick={() => logoutUserfn()}
+                >
+                  Cerrar Sesion
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        )}
       </Container>
     </Navbar>
   );
