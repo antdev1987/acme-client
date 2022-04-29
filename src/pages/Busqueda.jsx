@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import * as XLSX from 'xlsx';
+
 import { useAppProvider } from '../context/appContext/AppProvider';
 
 const ar = {};
@@ -46,6 +49,16 @@ const Busqueda = () => {
     setInput(_.filter(casoBd, { ...ar }));
   };
 
+  const handleExport = (e) => {
+    e.preventDefault()
+    
+    var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(input);
+
+    XLSX.utils.book_append_sheet(wb, ws, 'test');
+    XLSX.writeFile(wb, "MyExcel.xlsx")
+  };
+
   return (
     <>
       <p>{input.length === 0 ? casoBd.length : input.length}</p>
@@ -70,7 +83,11 @@ const Busqueda = () => {
         <button type="submit">buscar</button>
       </form>
 
-      <table className="table table-bordered">
+      <button onClick={handleExport}>
+        Export
+      </button>
+
+      <table className="table table-striped table-dark table-hover">
         <thead>
           <tr>
             {tabla.map(({ titulo }, idx) => (
@@ -135,28 +152,3 @@ const Busqueda = () => {
 };
 
 export default Busqueda;
-
-{
-  /* <>
-              {casoBd.map((item, idx) => (
-                <tr>
-                  <td>{item['N° CASO']}</td>
-                  <td>{item.AÑO}</td>
-                  <td>{item.ID}</td>
-                  <td>{item.NOMBRE}</td>
-                  <td>{item?.['UNIDAD REQUIRENTE']}</td>
-                  <td>{item.CANTIDAD}</td>
-                  <td>{item?.['TIPO LICITACION']}</td>
-                  <td>{item.ESTADO}</td>
-                  <td>{item.SUBESTADO}</td>
-                  <td>{item.acciones[0]?.Fecha}</td>
-                  <td>{item.acciones[0]?.Actividad}</td>
-                  <td>{item?.MONEDA}</td>
-                  <td>{item?.['ITEM PRESUPUESTARIO']}</td>
-                  <td>{item?.CONTRALORIA}</td>
-                  <td>{item?.PAC}</td>
-                  <td>{item?.RESPONSABLE}</td>
-                </tr>
-              ))}
-            </> */
-}
