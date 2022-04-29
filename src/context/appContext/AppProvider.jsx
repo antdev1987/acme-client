@@ -36,7 +36,7 @@ export const AppProvider =props =>{
 
             console.log('cargando la base de datos')
             try {
-                const endPoint = "http://192.168.100.7:4000/api/admin/bd"
+                const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/bd`
                 const {data} = await axios(endPoint,config)
                 setCasoBd(data)
             } catch (error) {
@@ -62,7 +62,7 @@ export const AppProvider =props =>{
             }
         }
         try {
-            const endPoint = "http://192.168.100.7:4000/api/admin/bd/add"
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/bd/add`
             const {data} = await axios.post(endPoint,bd,config)
             setCasoBd(data)
             setIsLoading(false)
@@ -86,7 +86,7 @@ export const AppProvider =props =>{
         
         try {
             
-            const endPoint = 'http://192.168.100.7:4000/api/admin/bd/remove'
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/bd/remove`
             const {data}= await axios.delete(endPoint,config)
             console.log('eliminar',data)
             setCasoBd([])
