@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { createContext,useContext,useEffect,useReducer } from "react";
+import { createContext,useContext,useEffect,useReducer,useState } from "react";
 import { AppReducer, InitialState } from "./AppReducer";
 import { useAuth } from './userContext/UserProvider';
 
@@ -10,6 +10,7 @@ export const AppProvider =props =>{
 
     const [state,dispatch] = useReducer(AppReducer,InitialState)
     const {user,setUser} = useAuth()
+    const [isLoadingAppProvider,setIsLoadingAppProvider] = useState(false)
 
     /////////////////////// funciones state ///////////////////
 
@@ -24,8 +25,11 @@ export const AppProvider =props =>{
 
         const obtenerBd = async()=>{
 
+            setIsLoadingAppProvider(true)
+
             const token = JSON.parse(localStorage.getItem('uid'))    
             if(!token){
+                setIsLoadingAppProvider(false)
                 return
             }
             const config = {
@@ -38,8 +42,10 @@ export const AppProvider =props =>{
             try {
                 const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/bd`
                 const {data} = await axios(endPoint,config)
+                setIsLoadingAppProvider(false)
                 setCasoBd(data)
             } catch (error) {
+                setIsLoadingAppProvider(false)
                 console.log(error.response.data)
             }
         }
@@ -103,6 +109,7 @@ export const AppProvider =props =>{
             value={{
 
                 casoBd:state.casoBd,
+                isLoadingAppProvider,
 
                 cargarBDAppfn:cargarBDAppfn,
                 deleteBDAppfn:deleteBDAppfn

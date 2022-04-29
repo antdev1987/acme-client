@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAppProvider } from '../context/appContext/AppProvider';
+import LoadingOverlay from "react-loading-overlay";
+LoadingOverlay.propTypes = undefined;
 
 const ar = {};
 
@@ -32,9 +34,9 @@ const clearObj = () => {
 };
 
 const Busqueda = () => {
-  const { casoBd } = useAppProvider();
+  const { casoBd,isLoadingAppProvider } = useAppProvider();
   const [input, setInput] = useState([]);
-
+  
   const save = (e) => {
     clearObj();
     ar[e.target.name] = e.target.value;
@@ -47,7 +49,13 @@ const Busqueda = () => {
   };
 
   return (
-    <>
+    
+     <LoadingOverlay
+      className="w-100 vh-100"
+      active={isLoadingAppProvider}
+      spinner
+      text="Loading your content..."
+    >
       <p>{input.length === 0 ? casoBd.length : input.length}</p>
 
       <form onSubmit={buscar}>
@@ -130,7 +138,8 @@ const Busqueda = () => {
           )}
         </tbody>
       </table>
-    </>
+      </LoadingOverlay>
+    
   );
 };
 

@@ -126,7 +126,9 @@ const BaseDatos = () => {
 
       </div>
         ):(
+          <div className="text-center">
           <button onClick={handleDelete}>reset base de datos</button>
+          </div>
         )}
     </LoadingOverlay>
   );
