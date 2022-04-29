@@ -48,6 +48,8 @@ const Busqueda = () => {
     setInput(_.filter(casoBd, { ...ar }));
   };
 
+  console.log('pagina busqueda')
+
   return (
     
      <LoadingOverlay

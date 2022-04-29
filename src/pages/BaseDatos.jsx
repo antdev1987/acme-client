@@ -83,6 +83,7 @@ const BaseDatos = () => {
     setIsLoading(false);
   };
 
+  console.log('pagina base de datos')
   return (
     <LoadingOverlay
       className="w-100"
