@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+
+import * as XLSX from 'xlsx';
+
 import { useAppProvider } from '../context/appContext/AppProvider';
-import LoadingOverlay from "react-loading-overlay";
+import LoadingOverlay from 'react-loading-overlay';
 LoadingOverlay.propTypes = undefined;
 
 const ar = {};
@@ -34,9 +37,9 @@ const clearObj = () => {
 };
 
 const Busqueda = () => {
-  const { casoBd,isLoadingAppProvider } = useAppProvider();
+  const { casoBd, isLoadingAppProvider } = useAppProvider();
   const [input, setInput] = useState([]);
-  
+
   const save = (e) => {
     clearObj();
     ar[e.target.name] = e.target.value;
@@ -48,11 +51,19 @@ const Busqueda = () => {
     setInput(_.filter(casoBd, { ...ar }));
   };
 
-  console.log('pagina busqueda')
+  console.log('pagina busqueda');
+  const handleExport = (e) => {
+    e.preventDefault();
+
+    var wb = XLSX.utils.book_new(),
+      ws = XLSX.utils.json_to_sheet(input);
+
+    XLSX.utils.book_append_sheet(wb, ws, 'test');
+    XLSX.writeFile(wb, 'MyExcel.xlsx');
+  };
 
   return (
-    
-     <LoadingOverlay
+    <LoadingOverlay
       className="w-100 vh-100"
       active={isLoadingAppProvider}
       spinner
@@ -80,7 +91,9 @@ const Busqueda = () => {
         <button type="submit">buscar</button>
       </form>
 
-      <table className="table table-bordered">
+      <button onClick={handleExport}>Export</button>
+
+      <table className="table table-striped table-dark table-hover">
         <thead>
           <tr>
             {tabla.map(({ titulo }, idx) => (
@@ -140,34 +153,8 @@ const Busqueda = () => {
           )}
         </tbody>
       </table>
-      </LoadingOverlay>
-    
+    </LoadingOverlay>
   );
 };
 
 export default Busqueda;
-
-{
-  /* <>
-              {casoBd.map((item, idx) => (
-                <tr>
-                  <td>{item['N° CASO']}</td>
-                  <td>{item.AÑO}</td>
-                  <td>{item.ID}</td>
-                  <td>{item.NOMBRE}</td>
-                  <td>{item?.['UNIDAD REQUIRENTE']}</td>
-                  <td>{item.CANTIDAD}</td>
-                  <td>{item?.['TIPO LICITACION']}</td>
-                  <td>{item.ESTADO}</td>
-                  <td>{item.SUBESTADO}</td>
-                  <td>{item.acciones[0]?.Fecha}</td>
-                  <td>{item.acciones[0]?.Actividad}</td>
-                  <td>{item?.MONEDA}</td>
-                  <td>{item?.['ITEM PRESUPUESTARIO']}</td>
-                  <td>{item?.CONTRALORIA}</td>
-                  <td>{item?.PAC}</td>
-                  <td>{item?.RESPONSABLE}</td>
-                </tr>
-              ))}
-            </> */
-}
