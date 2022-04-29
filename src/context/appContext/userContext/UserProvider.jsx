@@ -13,13 +13,14 @@ export const UserProvider = props=>{
 
         try {
 
-            const endPoint = 'http://192.168.100.7:4000/api/user/login'
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/user/login`
             const {data}= await axios.post(endPoint,userData)
             console.log(data)
             localStorage.setItem('uid', JSON.stringify(data));
             setUser(data)
         } catch (error) {
             console.log(error.response)
+            console.log(error)
         }
 
     }
