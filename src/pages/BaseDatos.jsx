@@ -13,7 +13,7 @@ const BaseDatos = () => {
   const [relateBd, setRelateBd] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [unableSubmit, setUnableSubmit] = useState(false);
-  const { cargarBDAppfn,deleteBDAppfn, casoBd } = useAppProvider();
+  const { cargarBDAppfn,deleteBDAppfn, casoBd,isLoadingAppProvider } = useAppProvider();
 
   const handleSubmit = () => {
     console.log("hola");
@@ -87,7 +87,7 @@ const BaseDatos = () => {
   return (
     <LoadingOverlay
       className="w-100"
-      active={isLoading}
+      active={isLoading || isLoadingAppProvider}
       spinner
       text="Loading your content..."
     >
@@ -127,8 +127,9 @@ const BaseDatos = () => {
 
       </div>
         ):(
-          <div className="text-center">
-          <button onClick={handleDelete}>reset base de datos</button>
+          <div className="text-center mt-5">
+            <h3 className="mb-3">Eliminar base de datos para ingresar Nueva</h3>
+          <button className="btn btn-primary" onClick={handleDelete}>reset base de datos</button>
           </div>
         )}
     </LoadingOverlay>
