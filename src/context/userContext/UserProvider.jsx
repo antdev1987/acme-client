@@ -3,10 +3,12 @@ import {createContext,useContext,useState,useEffect} from 'react'
 
 import {useNavigate} from 'react-router-dom'
 
+
 const UserContext = createContext()
 
 export const UserProvider = props=>{
     const [user,setUser]= useState(JSON.parse(localStorage.getItem('uid')) || '')
+  
     const navigate = useNavigate()
 
     const loginUserfn =async(userData)=>{

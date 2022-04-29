@@ -6,10 +6,11 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../context/appContext/userContext/UserProvider";
+import { useAuth } from "../context/userContext/UserProvider";
+
 
 const NavBar = () => {
-  const { user, logoutUserfn } = useAuth();
+  const { user, logoutUserfn } = useAuth()
 
   return (
     <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">

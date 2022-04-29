@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { createContext,useContext,useEffect,useReducer,useState } from "react";
 import { AppReducer, InitialState } from "./AppReducer";
-import { useAuth } from './userContext/UserProvider';
+import { useAuth } from '../userContext/UserProvider'
 
 const AppContext = createContext()
 
@@ -111,6 +111,7 @@ export const AppProvider =props =>{
                 casoBd:state.casoBd,
                 isLoadingAppProvider,
 
+                setCasoBd:setCasoBd,
                 cargarBDAppfn:cargarBDAppfn,
                 deleteBDAppfn:deleteBDAppfn
 

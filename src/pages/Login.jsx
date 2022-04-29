@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { useAuth } from '../context/appContext/userContext/UserProvider'
+import { useAuth } from '../context/userContext/UserProvider'
+
 
 const initialValues ={
   userName:'',
