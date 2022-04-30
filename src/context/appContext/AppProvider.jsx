@@ -19,6 +19,15 @@ export const AppProvider =props =>{
     }
 
 
+    const setUserBd = (userBd)=>{
+        dispatch({type:'GUARDAR-USERBD',payload:userBd})
+    }
+
+
+    const setOneUserBd = (oneUserBd)=>{
+        dispatch({type:'UPDATE-ONE-USER',payload:oneUserBd})
+    } 
+
     ///////////////////// funciones //////////////////////
 
     useEffect(()=>{
@@ -103,17 +112,48 @@ export const AppProvider =props =>{
     }
 
 
+
+    const createNewUserAppfn = async(userData)=>{
+
+        const token = JSON.parse(localStorage.getItem('uid'))
+        if(!token){
+            setUser('')
+            return
+        }
+        const config = {
+            headers:{
+                Authorization: `Bearer ${token.token}` 
+            }
+        }
+
+        try {
+
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/user/add`
+            const {data}= await axios.post(endPoint,userData,config)
+
+            console.log(data)
+            setOneUserBd(data)
+            
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+
     ///////////////////// the return ///////////////////////
     return (
         <AppContext.Provider
             value={{
 
                 casoBd:state.casoBd,
+                userBd:state.userBd,
                 isLoadingAppProvider,
 
                 setCasoBd:setCasoBd,
+                setUserBd,
                 cargarBDAppfn:cargarBDAppfn,
-                deleteBDAppfn:deleteBDAppfn
+                deleteBDAppfn:deleteBDAppfn,
+                createNewUserAppfn
 
             }}
         >

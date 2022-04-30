@@ -8,9 +8,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/userContext/UserProvider";
 
-
 const NavBar = () => {
-  const { user, logoutUserfn } = useAuth()
+  const { user, logoutUserfn } = useAuth();
 
   return (
     <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
@@ -29,14 +28,16 @@ const NavBar = () => {
             <Nav>
               <NavDropdown title={user.nombre} id="collasible-nav-dropdown">
                 {user.role === "admin" && (
-                  <NavDropdown.Item as={NavLink} to="/admin/basedatos">
-                    Base de Datos
-                  </NavDropdown.Item>
+                  <>
+                    <NavDropdown.Item as={NavLink} to="/admin/basedatos">
+                      Base de Datos
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to='/admin/admin-users'>
+                      Admin Users
+                    </NavDropdown.Item>
+                  </>
                 )}
 
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">
                   Something
                 </NavDropdown.Item>

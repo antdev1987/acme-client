@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import { UserProvider } from './context/userContext/UserProvider'
 import PrivateRouteUser from "./pages/permissions/PrivateRouteUser";
 import PublicRouteApp from "./pages/permissions/PublicRouteApp";
+import AdminUsers from "./pages/AdminUsers";
 
 const App = () => {
   return (
@@ -28,7 +29,9 @@ const App = () => {
 
             <Route element={<PrivateRouteAdmin />}>
               <Route path="/admin/basedatos" element={<BaseDatos />} />
+              <Route path='/admin/admin-users' element={<AdminUsers />}/>
             </Route>
+            
           </Routes>
         </AppProvider>
       </UserProvider>
