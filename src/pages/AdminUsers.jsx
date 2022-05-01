@@ -5,7 +5,11 @@ import axios from 'axios'
 
 import ListUsers from '../components/adminUsers/ListUsers'
 import AddUserForm from '../components/adminUsers/AddUserForm'
+
+
 const AdminUsers = () => {
+
+   
 
     const {setUserBd,userBd} = useAppProvider()
     const {setUser} = useAuth()
@@ -44,8 +48,7 @@ const AdminUsers = () => {
 
   return (
     <div >
-    
-    <AddUserForm />
+    <AddUserForm  />
 
     <ListUsers  userBd={userBd} />
 

@@ -62,7 +62,6 @@ const BaseDatos = () => {
     const workbook = XLSX.read(data, { cellDates: true });
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     const jsonData = XLSX.utils.sheet_to_row_object_array(worksheet);
-    console.log(jsonData);
     setCasos(jsonData);
     setIsLoading(false);
   };

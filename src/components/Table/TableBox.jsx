@@ -3,6 +3,9 @@ import React from 'react';
 import * as Style from '../../style/table.module.css';
 
 const TableBox = (props) => {
+
+
+
   return (
     <tr>
       <td>{props.item['N° CASO']}</td>

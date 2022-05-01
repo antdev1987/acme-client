@@ -29,6 +29,8 @@ const Busqueda = () => {
     ar[e.target.name] = e.target.value;
   };
 
+  
+
   const buscar = (e) => {
     e.preventDefault();
     setIsLoading(true)
