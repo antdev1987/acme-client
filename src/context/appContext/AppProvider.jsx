@@ -4,6 +4,8 @@ import { createContext,useContext,useEffect,useReducer,useState } from "react";
 import { AppReducer, InitialState } from "./AppReducer";
 import { useAuth } from '../userContext/UserProvider'
 
+import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+
 const AppContext = createContext()
 
 export const AppProvider =props =>{
@@ -28,6 +30,10 @@ export const AppProvider =props =>{
         dispatch({type:'UPDATE-ONE-USER',payload:oneUserBd})
     } 
 
+    const updatingLocaluserBd = (id)=>{
+        console.log(typeof id)
+        dispatch({type:'DELETE-LOCAL-USER',payload:id})
+    }
     ///////////////////// funciones //////////////////////
 
     useEffect(()=>{
@@ -112,7 +118,7 @@ export const AppProvider =props =>{
     }
 
 
-
+    ///////////////////////////////////////// creating a user //////////////////
     const createNewUserAppfn = async(userData)=>{
 
         const token = JSON.parse(localStorage.getItem('uid'))
@@ -135,6 +141,36 @@ export const AppProvider =props =>{
             setOneUserBd(data)
             
         } catch (error) {
+            console.log(error.response.data.msg)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html:`<h3> ${error.response.data.msg}</h3>`
+              })
+            
+        }
+    }
+
+    /////////////////////////////// deleting a user ///////////////////////////////
+    const deleteNewUserAppfn = async(id)=>{
+        console.log(id)
+        const token = JSON.parse(localStorage.getItem('uid'))
+        if(!token){
+            setUser('')
+            return
+        }
+        const config = {
+            headers:{
+                Authorization:`Bearer ${token.token}`
+            }
+        }
+        try {
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/user/remove/${id}`
+            const {data} = await axios.delete(endPoint,config)
+            updatingLocaluserBd(id)
+            console.log(data)
+
+        } catch (error) {
             console.log(error.response)
         }
     }
@@ -153,7 +189,8 @@ export const AppProvider =props =>{
                 setUserBd,
                 cargarBDAppfn:cargarBDAppfn,
                 deleteBDAppfn:deleteBDAppfn,
-                createNewUserAppfn
+                createNewUserAppfn,
+                deleteNewUserAppfn
 
             }}
         >

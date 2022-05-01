@@ -12,7 +12,9 @@ const PublicRouteApp = () => {
     <>
 
     {!user.role ?(
+      <div className='bg-secondary bg-opacity-10 vh-100'>
         <Outlet />
+      </div>
     ):<Navigate to='/busqueda' replace/>}
     
     </>

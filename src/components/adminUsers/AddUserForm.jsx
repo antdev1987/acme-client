@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useAppProvider } from "../../src/context/appContext/AppProvider";
+import { useAppProvider } from "../../context/appContext/AppProvider";
+
 
 const initialInputs = {
   userName: "",
@@ -35,7 +36,7 @@ const AddUserForm = () => {
       </button>
 
       {showForm && (
-        <form className="w-50 m-auto mt-1 border p-3" onSubmit={handleSubmit}>
+        <form className="w-50 m-auto mt-1 border p-3 bg-light shadow" onSubmit={handleSubmit}>
           <h3 className="text-center mb-3">Crear un nuevo Usuario</h3>
 
           <div className="input-group mb-3">

@@ -20,8 +20,9 @@ const clearObj = () => {
 };
 
 const Busqueda = () => {
-  const { casoBd, isLoadingAppProvider } = useAppProvider();
   const [input, setInput] = useState([]);
+  const [isLoading,setIsLoading] =useState(false)
+  const { casoBd, isLoadingAppProvider } = useAppProvider();
 
   const save = (e) => {
     clearObj();
@@ -30,8 +31,15 @@ const Busqueda = () => {
 
   const buscar = (e) => {
     e.preventDefault();
+    setIsLoading(true)
     clearObj();
-    setInput(_.filter(casoBd, { ...ar }));
+    
+    setTimeout(() => {
+      
+      setInput(_.filter(casoBd, { ...ar }));
+      setIsLoading(false)
+    }, 0);
+
   };
 
   console.log('pagina busqueda');
@@ -49,13 +57,16 @@ const Busqueda = () => {
   return (
     <LoadingOverlay
       className="w-100 vh-100"
-      active={isLoadingAppProvider}
+      active={isLoadingAppProvider || isLoading}
       spinner
+      styles={{
+        zIndex:'100'
+      }}
       text="Loading your content..."
     >
       <p>{input.length === 0 ? casoBd.length : input.length}</p>
 
-      <form onSubmit={buscar}>
+      <form className='w-75 m-auto bg-light p-3 shadow' onSubmit={buscar}>
         <div>
           <input
             type="text"
@@ -89,10 +100,10 @@ const Busqueda = () => {
           placeholder="ITEM PRESUPUESTARIO"
           onChange={save}
         />
-        <button type="submit">buscar</button>
+        <button className='btn btn-primary' type="submit">buscar</button>
       </form>
 
-      <button onClick={handleExport}>Export</button>
+      <button className='btn btn-info' onClick={handleExport}>Export</button>
 
       <Table casoBd={casoBd} input={input} />
     </LoadingOverlay>

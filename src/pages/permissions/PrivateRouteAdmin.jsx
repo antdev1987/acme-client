@@ -14,7 +14,9 @@ const PrivateRouteAdmin = () => {
     <>
 
     {user.role === 'admin' ?(
-        <Outlet />
+         <div className='bg-secondary bg-opacity-10 vh-100'>
+         <Outlet />
+       </div>
     ):<Navigate to='/busqueda'/>}
     
     </>

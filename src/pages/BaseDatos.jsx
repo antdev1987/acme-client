@@ -127,7 +127,7 @@ const BaseDatos = () => {
 
       </div>
         ):(
-          <div className="text-center mt-5">
+          <div className="text-center pt-5">
             <h3 className="mb-3">Eliminar base de datos para ingresar Nueva</h3>
           <button className="btn btn-primary" onClick={handleDelete}>reset base de datos</button>
           </div>

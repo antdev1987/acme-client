@@ -2,8 +2,9 @@ import React,{useEffect} from 'react'
 import { useAppProvider } from '../context/appContext/AppProvider'
 import { useAuth } from '../context/userContext/UserProvider'
 import axios from 'axios'
-import AddUserForm from '../../components/adminUsers/AddUserForm'
-import ListUsers from '../../components/adminUsers/ListUsers'
+
+import ListUsers from '../components/adminUsers/ListUsers'
+import AddUserForm from '../components/adminUsers/AddUserForm'
 const AdminUsers = () => {
 
     const {setUserBd,userBd} = useAppProvider()
@@ -46,7 +47,7 @@ const AdminUsers = () => {
     
     <AddUserForm />
 
-    <ListUsers userBd={userBd} />
+    <ListUsers  userBd={userBd} />
 
     </div>
   )

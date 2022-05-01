@@ -24,7 +24,15 @@ const tabla = [
 
 const Table = (props) => {
   return (
-    <table className="table table-sm table-striped table-hover">
+    <div style={{
+      overflowX:'scroll',
+      maxWidth:'95%',
+      height:'80vh',
+      maxHeight:'55vh',
+      margin:'auto'
+    }}> 
+
+    <table  className="table border border-3 border-secondary table-success rounded rounded-3 table-striped table-hover mt-3">
       <thead>
         <tr>
           {tabla.map(({ titulo }, idx) => (
@@ -34,7 +42,7 @@ const Table = (props) => {
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody style={{fontSize:'12px'}}>
         {props.input.length !== 0 ? (
           <>
             {props.input.map((item) => (
@@ -50,6 +58,7 @@ const Table = (props) => {
         )}
       </tbody>
     </table>
+      </div>
   );
 };
 
