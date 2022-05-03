@@ -35,12 +35,12 @@ const NavBar = () => {
                     <NavDropdown.Item as={NavLink} to='/admin/admin-users'>
                       Admin Users
                     </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to='/admin/mantencion'>
+                  Mantencion
+                </NavDropdown.Item>
                   </>
                 )}
 
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   href="#action/3.4"
