@@ -80,7 +80,7 @@ const Busqueda = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { casoBd, isLoadingAppProvider } = useAppProvider();
 
-  console.log(casoBd);
+  // console.log(casoBd);
 
   const save = (e) => {
     clearObj();
@@ -107,6 +107,23 @@ const Busqueda = () => {
       setSearchInput({ ['N° CASO']: '', NOMBRE: '', ID: value });
     } else {
       setSearchInput({ ['N° CASO']: value, NOMBRE: '', ID: '' });
+    }
+  };
+
+  const buscarUna = (e) => {
+    e.preventDefault();
+    let name;
+    let value;
+
+    if (searchInput.ID === '' && searchInput.NOMBRE === '') {
+      name = 'N° CASO';
+      value = searchInput['N° CASO'];
+    } else if (searchInput['N° CASO'] === '' && searchInput.ID === '') {
+      name = 'NOMBRE';
+      value = searchInput.NOMBRE;
+    } else {
+      name = 'ID';
+      value = searchInput.ID;
     }
 
     const filter = casoBd.filter((item) => {
@@ -209,6 +226,8 @@ const Busqueda = () => {
                 onChange={busquedaUna}
               />
             </div>
+
+            <button onClick={buscarUna}>Buscar</button>
           </div>
         </form>
       </div>
