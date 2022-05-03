@@ -10,9 +10,11 @@ import Table from '../components/Table/Table';
 
 import Style from '../style/busqueda.module.css';
 
+
 LoadingOverlay.propTypes = undefined;
 
 const ar = {};
+let obj;
 const searches = [
   {
     title: 'UNIDAD REQUIRENTE',
@@ -78,14 +80,14 @@ const Busqueda = () => {
     ['N° CASO']: '',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const { casoBd, isLoadingAppProvider } = useAppProvider();
-
-  // console.log(casoBd);
+  const { casoBd, isLoadingAppProvider, extraInfoBd } = useAppProvider();
 
   const save = (e) => {
     clearObj();
     ar[e.target.name] = e.target.value;
   };
+
+  console.log('pagina busqueda');
 
   const buscar = (e) => {
     e.preventDefault();
@@ -98,7 +100,7 @@ const Busqueda = () => {
     }, 0);
   };
 
-  const busquedaUna = (e) => {
+  const CleanUna = (e) => {
     const { name, value } = e.target;
 
     if (name === 'NOMBRE') {
@@ -132,8 +134,6 @@ const Busqueda = () => {
     setInput(filter);
   };
 
-  console.log('pagina busqueda');
-
   const handleExport = (e) => {
     e.preventDefault();
 
@@ -142,6 +142,19 @@ const Busqueda = () => {
 
     XLSX.utils.book_append_sheet(wb, ws, 'test');
     XLSX.writeFile(wb, 'MyExcel.xlsx');
+  };
+
+  const especial = (e) => {
+    obj = e.target.value;
+  };
+
+  const busquedaEspecial = (e) => {
+    e.preventDefault();
+
+    const filter = casoBd.filter((item) => {
+      return item[obj]?.includes('SI');
+    });
+    setInput(filter);
   };
 
   return (
@@ -154,13 +167,17 @@ const Busqueda = () => {
       }}
       text="Loading your content..."
     >
-      <p>{input.length === 0 ? casoBd.length : input.length}</p>
+      <div className="w-75 m-auto ">
+        <p>{input.length === 0 ? casoBd.length : input.length}</p>
+
+        <p>La ultima actualizacion fue el {extraInfoBd.fechaHoraInfo}</p>
+      </div>
 
       <div className="w-75 m-auto bg-light p-3 shadow">
-        <form onSubmit={buscar}>
+        <form className="border">
           <h2>Busqueda Combinada</h2>
           <div
-            className={`form-box d-flex flex-grow-1 flex-wrap ${Style.formBoxd}`}
+            className={`form-box gap-3 d-flex flex-grow-1 flex-wrap ${Style.formBoxd}`}
           >
             {searches.map((item, idx) => (
               <div className="border" key={idx}>
@@ -180,12 +197,27 @@ const Busqueda = () => {
             ))}
           </div>
 
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btn-primary mt-2" onClick={buscar}>
             buscar
           </button>
         </form>
 
-        <form>
+        <form className="border mt-5 mb-5">
+          <h2>Busqueda Especial</h2>
+          <div>
+            <select name="" id="" onChange={especial}>
+              <option value="">Todas</option>
+              <option value="PAC">PAC</option>
+              <option value="CONTRALORIA">CONTRALORIA</option>
+            </select>
+          </div>
+
+          <button className="btn btn-primary mt-2" onClick={busquedaEspecial}>
+            buscar
+          </button>
+        </form>
+
+        <form className="border">
           <h2>Busqueda por una</h2>
 
           <div
@@ -199,7 +231,7 @@ const Busqueda = () => {
                 type="text"
                 value={searchInput.NOMBRE}
                 name="NOMBRE"
-                onChange={busquedaUna}
+                onChange={CleanUna}
               />
             </div>
 
@@ -211,7 +243,7 @@ const Busqueda = () => {
                 type="text"
                 value={searchInput.ID}
                 name="ID"
-                onChange={busquedaUna}
+                onChange={CleanUna}
               />
             </div>
 
@@ -223,18 +255,22 @@ const Busqueda = () => {
                 type="text"
                 value={searchInput['N° CASO']}
                 name="N° CASO"
-                onChange={busquedaUna}
+                onChange={CleanUna}
               />
             </div>
 
-            <button onClick={buscarUna}>Buscar</button>
+            <button onClick={buscarUna} className="btn btn-primary mt-2">
+              Buscar
+            </button>
           </div>
         </form>
       </div>
 
-      <button className="btn btn-info" onClick={handleExport}>
-        Export
-      </button>
+      <div className="w-75 m-auto mt-5 mb-3">
+        <button className="btn btn-info" onClick={handleExport}>
+          Exportar tabla en excel
+        </button>
+      </div>
 
       <Table casoBd={casoBd} input={input} />
     </LoadingOverlay>
