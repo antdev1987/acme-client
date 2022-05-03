@@ -1,6 +1,7 @@
 export const InitialState ={
     casoBd:[],
-    userBd:[]
+    userBd:[],
+    extraInfoBd:{}
 }
 
 export const AppReducer =(state,action)=>{
@@ -34,6 +35,13 @@ export const AppReducer =(state,action)=>{
             return {
                 ...state,
                 userBd:state.userBd.filter(item=> item._id.toString() !== action.payload)
+            }
+        }
+
+        case 'VER-EXTRAINFOBD':{
+            return{
+                ...state,
+                extraInfoBd:{...action.payload}
             }
         }
 

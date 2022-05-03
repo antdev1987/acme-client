@@ -30,12 +30,17 @@ export const AppProvider =props =>{
         dispatch({type:'UPDATE-ONE-USER',payload:oneUserBd})
     } 
 
+    const setExtraInfoBd=(dataBd)=>{
+        dispatch({type:'VER-EXTRAINFOBD',payload:dataBd})
+    }
+
     const updatingLocaluserBd = (id)=>{
         console.log(typeof id)
         dispatch({type:'DELETE-LOCAL-USER',payload:id})
     }
     ///////////////////// funciones //////////////////////
 
+    //este carga la base de datos de busqueda
     useEffect(()=>{
 
         const obtenerBd = async()=>{
@@ -69,9 +74,36 @@ export const AppProvider =props =>{
 
     },[user])
 
+
+    //ESTE LEE LA FECHA DE ACTUALIZACION
+    useEffect(()=>{
+        const obtenerExtraInfo = async()=>{
+            const token =JSON.parse(localStorage.getItem('uid'))
+            if(!token){
+                setUser('')
+                return
+            }
+            const config = {
+                headers:{
+                    Authorization: `Bearer ${token.token}`
+                }
+            }
+            try {
+                const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/extraInfo/ver`
+                const {data} = await axios(endPoint,config)
+                console.log(data)
+                setExtraInfoBd(data)
+            } catch (error) {
+                console.log(error.response)
+            }
+        }
+
+        obtenerExtraInfo()
+    },[])
+
+
+    //ESTE GUARDA EL EXCEL A LA BASE DE DATOS
     const cargarBDAppfn = async(bd,setIsLoading)=>{
-
-
         const token = JSON.parse(localStorage.getItem('uid'))
         if(!token){
             setUser('')
@@ -184,6 +216,7 @@ export const AppProvider =props =>{
                 casoBd:state.casoBd,
                 userBd:state.userBd,
                 isLoadingAppProvider,
+                extraInfoBd:state.extraInfoBd,
 
                 setCasoBd:setCasoBd,
                 setUserBd,

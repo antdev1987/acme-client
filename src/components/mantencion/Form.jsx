@@ -16,7 +16,7 @@ const Form = () => {
 
 
   return (
-    <form className="w-50 m-auto border border-4 p-3">
+    <form className="w-50 m-auto border border-4 p-3 shadow">
 
     <div className="mb-3">
       <label htmlFor="nCaso" className="form-label">
@@ -25,13 +25,20 @@ const Form = () => {
       <input type="text" name='nCaso' onChange={handleChange} className="form-control" id="nCaso" />
     </div>
 
+    <div className="mb-3 col-4">
+      <label htmlFor="observacionFecha" className="form-label">
+       Obeservaciones a fecha
+      </label>
+      <input type="text" className="form-control" name='observacionFecha' onChange={handleChange} id="utm" />
+    </div>
+
 
     {/*  */}
     <div className="mb-3">
-        <h3> Plazo de entrega Estimado</h3>
+        <h3 className='text-center'> Plazo de entrega Estimado</h3>
       <div className="row g-3">
-        <div className="mb-3 col-6">
-          <input type="text" name='plazoEntrega' onChange={handleChange} className="form-control" id="plazoEntrega1" />
+        <div className="mb-3 col-4">
+          <input type="text" name='plazoCantidad' onChange={handleChange} className="form-control" id="plazoEntrega1" />
         </div>
 
         <div className="col-4">
@@ -120,12 +127,12 @@ const Form = () => {
 
     {/*  */}
 
-    <div className="row g-5">
+    <div className="row g-3">
 
 
     <div className="mb-3 col-5">
       <label htmlFor="fechacompra" className="form-label">
-       Fecha estimada orden de compra
+       Fecha est. orden de compra
       </label>
       <input type="Date" name='fechaOrdenCompra' onChange={handleChange} className="form-control" id="fechacompra" />
     </div>
