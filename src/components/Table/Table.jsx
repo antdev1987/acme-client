@@ -44,7 +44,7 @@ function Table(props) {
           contextMenu={['row_above', 'row_below']}
           readOnly={true}
           manualColumnResize={true}
-          maxWidth="1200"
+          maxWidth="926"
           height="500"
           className='text-dark'
           // hiddenColumns= {{
