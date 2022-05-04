@@ -1,8 +1,25 @@
 import React, { useState } from 'react'
+import { useAppProvider } from '../../context/appContext/AppProvider'
+
+
+
+const initialV = {
+  art12: "",
+cantidadDesgloze: "",
+fechaEntrega: "",
+fechaOrdenCompra: "",
+nCaso: "",
+observacionFecha: "",
+plazoCantidad: "",
+plazoDias: "",
+utm: ""
+}
 
 const Form = () => {
 
-    const [inputs,setInputs] = useState({})
+    const [inputs,setInputs] = useState(initialV)
+
+    const {mantencionAddAppfn} = useAppProvider()
 
     const handleChange =(e)=>{
 
@@ -14,22 +31,45 @@ const Form = () => {
 
     console.log(inputs)
 
+    const handleSubmit =(e)=>{
+      e.preventDefault()
+
+
+      const dbMantencion ={
+        art12: inputs.art12,
+        cantidadDesgloze: inputs.cantidadDesgloze,
+        fechaEntrega: inputs.fechaEntrega,
+        fechaOrdenCompra: inputs.fechaOrdenCompra,
+        nCaso: inputs.nCaso,
+        observacionFecha: inputs.observacionFecha,
+        plazoEntrega:`${inputs.plazoCantidad} ${inputs.plazoDias}`,
+        // plazoCantidad: "df",
+        // plazoDias: "dias corridos",
+        utm: inputs.utm
+
+      }
+
+      console.log(dbMantencion)
+      
+      mantencionAddAppfn(dbMantencion)
+      setInputs(initialV)
+    }
 
   return (
-    <form className="w-50 m-auto border border-4 p-3 shadow">
+    <form onSubmit={handleSubmit} className="w-50 m-auto border border-4 p-3 shadow">
 
     <div className="mb-3">
       <label htmlFor="nCaso" className="form-label">
         Numero de Caso
       </label>
-      <input type="text" name='nCaso' onChange={handleChange} className="form-control" id="nCaso" />
+      <input type="text" value={inputs.nCaso} name='nCaso' onChange={handleChange} className="form-control" id="nCaso" />
     </div>
 
     <div className="mb-3 col-4">
       <label htmlFor="observacionFecha" className="form-label">
        Obeservaciones a fecha
       </label>
-      <input type="text" className="form-control" name='observacionFecha' onChange={handleChange} id="utm" />
+      <input type="text" className="form-control" value={inputs.observacionFecha} name='observacionFecha' onChange={handleChange} id="utm" />
     </div>
 
 
@@ -38,7 +78,7 @@ const Form = () => {
         <h3 className='text-center'> Plazo de entrega Estimado</h3>
       <div className="row g-3">
         <div className="mb-3 col-4">
-          <input type="text" name='plazoCantidad' onChange={handleChange} className="form-control" id="plazoEntrega1" />
+          <input type="text" value={inputs.plazoCantidad} name='plazoCantidad' onChange={handleChange} className="form-control" id="plazoEntrega1" />
         </div>
 
         <div className="col-4">
@@ -50,6 +90,7 @@ const Form = () => {
               onChange={handleChange}
               id="flexRadioDefault1"
               value='dias corridos'
+              checked={inputs.plazoDias === 'dias corridos'}
             />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               Dias Corridos
@@ -61,6 +102,7 @@ const Form = () => {
               type="radio"
               name="plazoDias"
               value='dias habiles'
+              checked={inputs.plazoDias === 'dias habiles'}
               onChange={handleChange}
               id="flexRadioDefault2"
             />
@@ -80,7 +122,7 @@ const Form = () => {
       <label htmlFor="utm" className="form-label">
        UTM
       </label>
-      <input type="text" className="form-control" name='utm' onChange={handleChange} id="utm" />
+      <input type="text" className="form-control" value={inputs.utm} name='utm' onChange={handleChange} id="utm" />
     </div>
 
 
@@ -88,7 +130,7 @@ const Form = () => {
       <label htmlFor="cDesgloze" className="form-label">
        Cantidad Desgloze
       </label>
-      <input type="text" name='cantidadDesgloze' onChange={handleChange} className="form-control" id="cDesgloze" />
+      <input type="text" value={inputs.cantidadDesgloze} name='cantidadDesgloze' onChange={handleChange} className="form-control" id="cDesgloze" />
     </div>
 
     <div className="col-4">
@@ -99,6 +141,7 @@ const Form = () => {
               type="radio"
               name="art12"
               value='aplica'
+              checked={inputs.art12 === 'aplica'}
               onChange={handleChange}
               id="art1"
               
@@ -112,6 +155,7 @@ const Form = () => {
               className="form-check-input"
               type="radio"
               name="art12"
+              checked={inputs.art12 === 'no aplica'}
               value='no aplica'
               onChange={handleChange}
               id="art2"
@@ -134,7 +178,7 @@ const Form = () => {
       <label htmlFor="fechacompra" className="form-label">
        Fecha est. orden de compra
       </label>
-      <input type="Date" name='fechaOrdenCompra' onChange={handleChange} className="form-control" id="fechacompra" />
+      <input type="Date" value={inputs.fechaOrdenCompra} name='fechaOrdenCompra' onChange={handleChange} className="form-control" id="fechacompra" />
     </div>
 
 
@@ -142,7 +186,7 @@ const Form = () => {
       <label htmlFor="fechaentrega" className="form-label">
        Fecha estimada de entrega
       </label>
-      <input type="Date" name='fechaEntrega' onChange={handleChange} className="form-control" id="fechaentrega" />
+      <input type="Date" value={inputs.fechaEntrega} name='fechaEntrega' onChange={handleChange} className="form-control" id="fechaentrega" />
     </div>
 
     </div>

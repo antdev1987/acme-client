@@ -239,6 +239,34 @@ export const AppProvider =props =>{
     }
 
 
+    //crear nuevo caso en mantencion 
+    const mantencionAddAppfn = async(mantencionData)=>{
+
+        const token = JSON.parse(localStorage.getItem('uid'))
+        if(!token){
+            setUser('')
+            return
+        }
+        const config = {
+            headers:{
+                Authorization: `Bearer ${token.token}` 
+            }
+        }
+
+        try {
+
+
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/mantencion/add`
+            const {data}= await axios.post(endPoint,mantencionData,config)
+
+            console.log(data)
+            
+            
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
     ///////////////////// the return ///////////////////////
     console.log('en app provider')
     return (
@@ -256,7 +284,8 @@ export const AppProvider =props =>{
                 deleteBDAppfn:deleteBDAppfn,
                 createNewUserAppfn,
                 deleteNewUserAppfn,
-                updateExtraInfoAppfn
+                updateExtraInfoAppfn,
+                mantencionAddAppfn
 
             }}
         >
