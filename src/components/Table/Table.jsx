@@ -10,8 +10,6 @@ registerAllModules();
 registerLanguageDictionary(esMX);
 
 function Table(props) {
-  const [usuarios, setUsuarios] = React.useState([]);
-
   const hotTableComponent = React.useRef(null);
 
   const descargarArchivo = () => {
@@ -31,7 +29,6 @@ function Table(props) {
 
   return (
     <div className="container-md">
-      <h2>Hola, gente</h2>
       <button onClick={() => descargarArchivo()}>Descargar Archivo</button>
       {props.casoBd && (
         <HotTable
@@ -56,7 +53,7 @@ function Table(props) {
           // }}
         >
           <HotColumn data="AÑO" title="AÑO" />
-          <HotColumn data="ID" title="ID" readOnly={true} width={50} />
+          <HotColumn data="ID" title="ID" width={50} />
           <HotColumn data="NOMBRE" title="Nombre" width={100} />
           <HotColumn
             data="UNIDAD REQUIRENTE"
