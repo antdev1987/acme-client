@@ -259,11 +259,19 @@ export const AppProvider =props =>{
             const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/mantencion/add`
             const {data}= await axios.post(endPoint,mantencionData,config)
 
-            console.log(data)
-            
-            
+            Swal.fire({
+                icon: 'success',
+                title: 'Guardado...',
+                text: 'Registro Guardado',
+              })
+
         } catch (error) {
-            console.log(error.response)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.msg,
+              })
+            
         }
     }
 
