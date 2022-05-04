@@ -13,12 +13,14 @@ const BaseDatos = () => {
   const [relateBd, setRelateBd] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [unableSubmit, setUnableSubmit] = useState(false);
-  const { cargarBDAppfn,deleteBDAppfn, casoBd,isLoadingAppProvider } = useAppProvider();
+  const [fechaHora,setFechaHora] = useState('')
+  const { cargarBDAppfn, deleteBDAppfn, casoBd, isLoadingAppProvider,updateExtraInfoAppfn } =
+    useAppProvider();
 
   const handleSubmit = () => {
     console.log("hola");
-    setIsLoading(true)
-    cargarBDAppfn(relateBd,setIsLoading);
+    setIsLoading(true);
+    cargarBDAppfn(relateBd, setIsLoading);
     setCasos([]);
     setAcciones([]);
   };
@@ -38,9 +40,9 @@ const BaseDatos = () => {
     }, 0);
   };
 
-  const handleDelete =()=>{
-    deleteBDAppfn()
-  }
+  const handleDelete = () => {
+    deleteBDAppfn();
+  };
 
   console.log(relateBd);
 
@@ -82,7 +84,15 @@ const BaseDatos = () => {
     setIsLoading(false);
   };
 
-  console.log('pagina base de datos')
+  console.log("pagina base de datos");
+  console.log(fechaHora)
+
+  const handleSubmitFecha = (e)=>{
+    e.preventDefault()
+
+    updateExtraInfoAppfn({fechaHoraInfo:fechaHora})
+  }
+
   return (
     <LoadingOverlay
       className="w-100"
@@ -90,47 +100,65 @@ const BaseDatos = () => {
       spinner
       text="Loading your content..."
     >
-      {casoBd.length <=0 ?(
-
+      {casoBd.length <= 0 ? (
         <div className="text-center pt-4 vh-100 border">
-        <h1>Parse Base de Datos Excel</h1>
+          <h1>Parse Base de Datos Excel</h1>
 
-        <div className="border border-5 w-50 mx-auto p-2 mb-3">
-          <label className="d-block text-uppercase mb-1 fw-bold">
-            Subir base de datos Caso
-          </label>
-          <input type="file" onChange={(e) => handleFileCaso(e)} />
-        </div>
-
-
-        {casos.length > 0 && (
           <div className="border border-5 w-50 mx-auto p-2 mb-3">
             <label className="d-block text-uppercase mb-1 fw-bold">
-              Subir base de datos Acciones
+              Subir base de datos Caso
             </label>
-            <input type="file" onChange={(e) => handleFileAcciones(e)} />
+            <input type="file" onChange={(e) => handleFileCaso(e)} />
           </div>
-        )}
 
-        {acciones.length > 0 && (
-          <div>
-            <button
-              onClick={unableSubmit ? handleSubmit : handleRelate}
-              className="btn btn-info"
-            >
-              {unableSubmit ? "Cargar Base de Datos" : "Crear Relacion"}
+          {casos.length > 0 && (
+            <div className="border border-5 w-50 mx-auto p-2 mb-3">
+              <label className="d-block text-uppercase mb-1 fw-bold">
+                Subir base de datos Acciones
+              </label>
+              <input type="file" onChange={(e) => handleFileAcciones(e)} />
+            </div>
+          )}
+
+          {acciones.length > 0 && (
+            <div>
+              <button
+                onClick={unableSubmit ? handleSubmit : handleRelate}
+                className="btn btn-info"
+              >
+                {unableSubmit ? "Cargar Base de Datos" : "Crear Relacion"}
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <>
+          <div className="text-center border border-3 pt-5 pb-2">
+            <h3 className="mb-3">Eliminar base de datos para ingresar Nueva</h3>
+            <button className="btn btn-primary" onClick={handleDelete}>
+              reset base de datos
             </button>
           </div>
-        )}
 
-
-      </div>
-        ):(
-          <div className="text-center pt-5">
-            <h3 className="mb-3">Eliminar base de datos para ingresar Nueva</h3>
-          <button className="btn btn-primary" onClick={handleDelete}>reset base de datos</button>
-          </div>
-        )}
+          <form onSubmit={handleSubmitFecha} className="w-50 m-auto mt-5 border border-3 p-2 shadow">
+            <div className="mb-3">
+              <label htmlFor="exampleInputEmail1" className="form-label">
+                Fecha y Hora de Actualizacion
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="exampleInputEmail1"
+                onChange={(e)=>setFechaHora(e.target.value)}
+              />
+              <div id="emailHelp" className="form-text">
+                this info will show in busqueda page
+              </div>
+            </div>
+            <button className="btn btn-primary">Actualizar Fecha y Hora</button>
+          </form>
+        </>
+      )}
     </LoadingOverlay>
   );
 };

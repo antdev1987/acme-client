@@ -102,6 +102,29 @@ export const AppProvider =props =>{
     },[])
 
 
+    //este crear la fecha de actualizar que se ve en bunsqueda
+    const updateExtraInfoAppfn = async(bd)=>{
+        const token = JSON.parse(localStorage.getItem('uid'))
+        if(!token){
+            setUser('')
+            return
+        }
+        const config = {
+            headers:{
+                Authorization: `Bearer ${token.token}` 
+            }
+        }
+        try {
+            const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/extraInfo/add`
+            const {data} = await axios.post(endPoint,bd,config)
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+
     //ESTE GUARDA EL EXCEL A LA BASE DE DATOS
     const cargarBDAppfn = async(bd,setIsLoading)=>{
         const token = JSON.parse(localStorage.getItem('uid'))
@@ -223,7 +246,8 @@ export const AppProvider =props =>{
                 cargarBDAppfn:cargarBDAppfn,
                 deleteBDAppfn:deleteBDAppfn,
                 createNewUserAppfn,
-                deleteNewUserAppfn
+                deleteNewUserAppfn,
+                updateExtraInfoAppfn
 
             }}
         >
