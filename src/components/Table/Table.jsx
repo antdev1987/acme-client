@@ -2,6 +2,15 @@ import React from 'react';
 
 import TableBox from './TableBox';
 
+import { HotTable, HotColumn } from '@handsontable/react';
+import { registerAllModules } from 'handsontable/registry';
+import { registerLanguageDictionary, esMX } from 'handsontable/i18n';
+import 'handsontable/dist/handsontable.full.css';
+
+// ejecutar para obtener todas las funciones de handsontable
+registerAllModules();
+registerLanguageDictionary(esMX);
+
 const tabla = [
   { titulo: 'N° CASO' },
   { titulo: 'AÑO' },
@@ -20,14 +29,23 @@ const Table = (props) => {
   return (
     <div
       style={{
-        overflowX: 'scroll',
         maxWidth: '95%',
         height: '80vh',
         maxHeight: '55vh',
         margin: 'auto',
       }}
     >
-      <table className="table border border-3 border-secondary table-success rounded rounded-3 table-striped table-hover mt-3">
+      <HotTable data={props.input || props.casoBd} licenseKey="non-commercial-and-evaluation">
+        <HotColumn dataKey="NOMBRE" />
+      </HotTable>
+    </div>
+  );
+};
+
+export default Table;
+
+{
+  /* <table className="table border border-3 border-secondary table-success rounded rounded-3 table-striped table-hover mt-3">
         <thead>
           <tr>
             {tabla.map(({ titulo }, idx) => (
@@ -52,9 +70,5 @@ const Table = (props) => {
             </>
           )}
         </tbody>
-      </table>
-    </div>
-  );
-};
-
-export default Table;
+      </table> */
+}
