@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import * as XLSX from 'xlsx';
-
 import { useAppProvider } from '../context/appContext/AppProvider';
 
 import LoadingOverlay from 'react-loading-overlay';
@@ -12,8 +10,6 @@ import Style from '../style/busqueda.module.css';
 
 LoadingOverlay.propTypes = undefined;
 
-const ar = {};
-let obj;
 const searches = [
   {
     title: 'UNIDAD REQUIRENTE',
@@ -63,16 +59,10 @@ const searches = [
   },
 ];
 
-const clearObj = () => {
-  for (const item in ar) {
-    if (ar[item] === '') {
-      delete ar[item];
-    }
-  }
-};
-
 const Busqueda = () => {
   const [input, setInput] = useState([]);
+  const [busquedaUnica, setBusquedaUnica] = useState({});
+  const [multiple, setMultiple] = useState({});
   const [searchInput, setSearchInput] = useState({
     NOMBRE: '',
     ID: '',
@@ -83,7 +73,15 @@ const Busqueda = () => {
 
   const save = (e) => {
     clearObj();
-    ar[e.target.name] = e.target.value;
+    setMultiple({ [e.target.name]: e.target.value, ...multiple });
+  };
+
+  const clearObj = () => {
+    for (const item in multiple) {
+      if (multiple[item] === '') {
+        delete multiple[item];
+      }
+    }
   };
 
   console.log('pagina busqueda');
@@ -94,9 +92,19 @@ const Busqueda = () => {
     clearObj();
 
     setTimeout(() => {
-      setInput(_.filter(casoBd, { ...ar }));
+      setInput(_.filter(casoBd, { ...multiple }));
       setIsLoading(false);
     }, 0);
+  };
+
+  const clearBuscar = (e) => {
+    e.preventDefault();
+    setMultiple({
+      ['UNIDAD REQUIRENTE']: '',
+      ['TIPO LICITACION']: '',
+      AÑO: '',
+      ESTADO: '',
+    });
   };
 
   const CleanUna = (e) => {
@@ -133,28 +141,28 @@ const Busqueda = () => {
     setInput(filter);
   };
 
-  const handleExport = (e) => {
-    e.preventDefault();
-
-    var wb = XLSX.utils.book_new(),
-      ws = XLSX.utils.json_to_sheet(input);
-
-    XLSX.utils.book_append_sheet(wb, ws, 'test');
-    XLSX.writeFile(wb, 'MyExcel.xlsx');
-  };
-
   const especial = (e) => {
-    obj = e.target.value;
+    setBusquedaUnica(e.target.value);
   };
 
   const busquedaEspecial = (e) => {
     e.preventDefault();
 
     const filter = casoBd.filter((item) => {
-      return item[obj]?.includes('SI');
+      return item[busquedaUnica]?.includes('SI');
     });
     setInput(filter);
   };
+
+  const especialClear = (e) => {
+    e.preventDefault();
+    setBusquedaUnica('');
+  };
+
+  const porUnaClear = (e) => {
+    e.preventDefault()
+    setSearchInput({ ['N° CASO']: '', NOMBRE: "", ID: '' });
+  }
 
   return (
     <LoadingOverlay
@@ -183,8 +191,13 @@ const Busqueda = () => {
                 <label htmlFor="#" className="d-block">
                   {item.title}
                 </label>
-                <select name={item.title} onChange={save} className="w-100">
-                  <option value="">{item.defaultOption}</option>
+                <select
+                  value={multiple[item.title]}
+                  name={item.title}
+                  onChange={save}
+                  className="w-100"
+                >
+                  <option>{item.defaultOption}</option>
 
                   {item.optinos.map((item, idx) => (
                     <option key={idx} value={item.option}>
@@ -199,13 +212,16 @@ const Busqueda = () => {
           <button className="btn btn-primary mt-2" onClick={buscar}>
             buscar
           </button>
+          <button className="btn btn-secondary mt-2" onClick={clearBuscar}>
+            Limpiar
+          </button>
         </form>
 
         <form className="border mt-5 mb-5">
           <h2>Busqueda Especial</h2>
           <div>
-            <select name="" id="" onChange={especial}>
-              <option value="">Todas</option>
+            <select value={busquedaUnica} onChange={especial}>
+              <option>Todas</option>
               <option value="PAC">PAC</option>
               <option value="CONTRALORIA">CONTRALORIA</option>
             </select>
@@ -213,6 +229,9 @@ const Busqueda = () => {
 
           <button className="btn btn-primary mt-2" onClick={busquedaEspecial}>
             buscar
+          </button>
+          <button className="btn btn-secondary mt-2" onClick={especialClear}>
+            Limpiar
           </button>
         </form>
 
@@ -261,14 +280,12 @@ const Busqueda = () => {
             <button onClick={buscarUna} className="btn btn-primary mt-2">
               Buscar
             </button>
+
+            <button className="btn btn-secondary mt-2" onClick={porUnaClear}>
+              Limpiar
+            </button>
           </div>
         </form>
-      </div>
-
-      <div className="w-75 m-auto mt-5 mb-3">
-        <button className="btn btn-info" onClick={handleExport}>
-          Exportar tabla en excel
-        </button>
       </div>
 
       {casoBd && <Table casoBd={casoBd} input={input} />}
