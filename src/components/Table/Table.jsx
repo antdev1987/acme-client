@@ -29,7 +29,7 @@ function Table(props) {
 
   return (
     <div className="container-md">
-      <button onClick={() => descargarArchivo()}>Descargar Archivo</button>
+      <button onClick={() => descargarArchivo()} className="btn-primary btn mb-2">Descargar Archivo</button>
       {props.casoBd && (
         <HotTable
           ref={hotTableComponent}
