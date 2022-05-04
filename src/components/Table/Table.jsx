@@ -27,7 +27,7 @@ function Table(props) {
   };
 
   return (
-    <div className='container-sm'>
+    <div className="container-md">
       <h2>Hola, gente</h2>
       <button onClick={() => descargarArchivo()}>Descargar Archivo</button>
       {props.casoBd && (
@@ -43,18 +43,29 @@ function Table(props) {
           contextMenu={['row_above', 'row_below']}
           readOnly={false}
           manualColumnResize={true}
-          width={"40px"}
         >
           <HotColumn data="AÑO" title="AÑO" />
-          <HotColumn data="ID" title="ID" readOnly={true} />
-          <HotColumn data="NOMBRE" title="Nombre" />
-          <HotColumn data="UNIDAD REQUIRENTE" title="UNIDAD REQUIRENTE" />
-          <HotColumn data="CANTIDAD" title="CANTIDAD" />
-          <HotColumn data="TIPO LICITACION" title="TIPO LICITACION" />
-          <HotColumn data="ESTADO" title="ESTADO" />
-          <HotColumn data="SUBESTADO" title='SUBESTADO' />
-          <HotColumn data="MONEDA" title='MONEDA' />
-          <HotColumn data="ITEM PRESUPUESTARIO" title='Presupuesto' />
+          <HotColumn data="ID" title="ID" readOnly={true} width={50} />
+          <HotColumn data="NOMBRE" title="Nombre" width={100} />
+          <HotColumn
+            data="UNIDAD REQUIRENTE"
+            title="UNIDAD REQUIRENTE"
+            width={150}
+          />
+          <HotColumn data="CANTIDAD" title="CANTIDAD" width={100} />
+          <HotColumn
+            data="TIPO LICITACION"
+            title="TIPO LICITACION"
+            width={150}
+          />
+          <HotColumn data="ESTADO" title="ESTADO" width={100} />
+          <HotColumn data="SUBESTADO" title="SUBESTADO" width={100} />
+          <HotColumn data="MONEDA" title="MONEDA" width={100} />
+          <HotColumn
+            data="ITEM PRESUPUESTARIO"
+            title="Presupuesto"
+            width={100}
+          />
         </HotTable>
       )}
     </div>
