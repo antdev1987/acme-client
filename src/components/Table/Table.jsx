@@ -27,6 +27,8 @@ function Table(props) {
     });
   };
 
+  console.log(hotTableComponent)
+
   return (
     <div className="container-md">
       <h2>Hola, gente</h2>
