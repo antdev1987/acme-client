@@ -7,6 +7,7 @@ import LoadingOverlay from 'react-loading-overlay';
 import Table from '../components/Table/Table';
 
 import Style from '../style/busqueda.module.css';
+import { Accordion } from 'react-bootstrap';
 
 LoadingOverlay.propTypes = undefined;
 
@@ -97,16 +98,6 @@ const Busqueda = () => {
     }, 0);
   };
 
-  const clearBuscar = (e) => {
-    e.preventDefault();
-    setMultiple({
-      ['UNIDAD REQUIRENTE']: '',
-      ['TIPO LICITACION']: '',
-      AÑO: '',
-      ESTADO: '',
-    });
-  };
-
   const CleanUna = (e) => {
     const { name, value } = e.target;
 
@@ -154,15 +145,20 @@ const Busqueda = () => {
     setInput(filter);
   };
 
-  const especialClear = (e) => {
+  const porUnaClear = (e) => {
     e.preventDefault();
-    setBusquedaUnica('');
+    setSearchInput({ ['N° CASO']: '', NOMBRE: '', ID: '' });
   };
 
-  const porUnaClear = (e) => {
-    e.preventDefault()
-    setSearchInput({ ['N° CASO']: '', NOMBRE: "", ID: '' });
-  }
+  const limpiarBuscar = (e) => {
+    e.preventDefault();
+    setMultiple({
+      ['UNIDAD REQUIRENTE']: '',
+      ['TIPO LICITACION']: '',
+      AÑO: '',
+      ESTADO: '',
+    });
+  };
 
   return (
     <LoadingOverlay
@@ -174,118 +170,143 @@ const Busqueda = () => {
       }}
       text="Loading your content..."
     >
-      <div className="w-75 m-auto ">
+      <div
+        className="m-auto p-3 shadow  mb-5 fs-13"
+        style={{ maxWidth: '1300px' }}
+      >
         <p>{input.length === 0 ? casoBd.length : input.length}</p>
 
-        <p>La ultima actualizacion fue el {extraInfoBd.fechaHoraInfo}</p>
-      </div>
+        <p className='text-danger border d-inline-block border-3 p-2'>La ultima actualizacion fue el {extraInfoBd.fechaHoraInfo}</p>
 
-      <div className="w-75 m-auto bg-light p-3 shadow">
-        <form className="border">
-          <h2>Busqueda Combinada</h2>
-          <div
-            className={`form-box gap-3 d-flex flex-grow-1 flex-wrap ${Style.formBoxd}`}
-          >
-            {searches.map((item, idx) => (
-              <div className="border" key={idx}>
-                <label htmlFor="#" className="d-block">
-                  {item.title}
-                </label>
-                <select
-                  value={multiple[item.title]}
-                  name={item.title}
-                  onChange={save}
-                  className="w-100"
+        <Accordion defaultActiveKey="0">
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Busqueda Combinada</Accordion.Header>
+            <Accordion.Body>
+              <form className="border p-2">
+                <h4>Busqueda Combinada</h4>
+                <div
+                  className={`form-box gap-3 d-flex flex-grow-1 flex-wrap ${Style.formBoxd}`}
                 >
-                  <option>{item.defaultOption}</option>
+                  {searches.map((item, idx) => (
+                    <div key={idx}>
+                      <label htmlFor="#" className="d-block">
+                        {item.title}
+                      </label>
+                      <select
+                        value={multiple[item.title]}
+                        name={item.title}
+                        onChange={save}
+                        className="w-100"
+                      >
+                        <option>{item.defaultOption}</option>
 
-                  {item.optinos.map((item, idx) => (
-                    <option key={idx} value={item.option}>
-                      {item.option}
-                    </option>
+                        {item.optinos.map((item, idx) => (
+                          <option key={idx} value={item.option}>
+                            {item.option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   ))}
-                </select>
-              </div>
-            ))}
-          </div>
+                </div>
 
-          <button className="btn btn-primary mt-2" onClick={buscar}>
-            buscar
-          </button>
-          <button className="btn btn-secondary mt-2" onClick={clearBuscar}>
-            Limpiar
-          </button>
-        </form>
+                <button className="btn btn-primary mt-2" onClick={buscar}>
+                  buscar
+                </button>
+                <button
+                  className="btn btn-secondary mt-2"
+                  onClick={limpiarBuscar}
+                >
+                  Limpiar Todo
+                </button>
+              </form>
+            </Accordion.Body>
+          </Accordion.Item>
 
-        <form className="border mt-5 mb-5">
-          <h2>Busqueda Especial</h2>
-          <div>
-            <select value={busquedaUnica} onChange={especial}>
-              <option>Todas</option>
-              <option value="PAC">PAC</option>
-              <option value="CONTRALORIA">CONTRALORIA</option>
-            </select>
-          </div>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>Busqueda Especial</Accordion.Header>
+            <Accordion.Body>
+              <form className={`${Style.formBoxd} border mt-2 mb-2 p-2`}>
+                <h4>Busqueda Especial</h4>
+                <div>
+                  <select value={busquedaUnica} onChange={especial}>
+                    <option>Todas</option>
+                    <option value="PAC">PAC</option>
+                    <option value="CONTRALORIA">CONTRALORIA</option>
+                  </select>
+                </div>
 
-          <button className="btn btn-primary mt-2" onClick={busquedaEspecial}>
-            buscar
-          </button>
-          <button className="btn btn-secondary mt-2" onClick={especialClear}>
-            Limpiar
-          </button>
-        </form>
+                <button
+                  className="btn btn-primary mt-2"
+                  onClick={busquedaEspecial}
+                >
+                  buscar
+                </button>
+              </form>
+            </Accordion.Body>
+          </Accordion.Item>
 
-        <form className="border">
-          <h2>Busqueda por una</h2>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>Busqueda Por Una</Accordion.Header>
+            <Accordion.Body>
+              <form className={`${Style.formBoxd} border p-2`}>
+                <h4>Busqueda por una</h4>
 
-          <div
-            className={`form-box d-flex flex-grow-1 flex-wrap ${Style.formBoxd}`}
-          >
-            <div>
-              <label htmlFor="#" className="d-block">
-                Palabra Clave
-              </label>
-              <input
-                type="text"
-                value={searchInput.NOMBRE}
-                name="NOMBRE"
-                onChange={CleanUna}
-              />
-            </div>
+                <div
+                  className={`form-box d-flex flex-grow-1 flex-wrap gap-3 ${Style.formBoxd}`}
+                >
+                  <div>
+                    <label htmlFor="#" className="d-block">
+                      Palabra Clave
+                    </label>
+                    <input
+                      type="text"
+                      value={searchInput.NOMBRE}
+                      name="NOMBRE"
+                      onChange={CleanUna}
+                    />
+                  </div>
 
-            <div>
-              <label htmlFor="#" className="d-block">
-                Palabra iD
-              </label>
-              <input
-                type="text"
-                value={searchInput.ID}
-                name="ID"
-                onChange={CleanUna}
-              />
-            </div>
+                  <div>
+                    <label htmlFor="#" className="d-block">
+                      Palabra iD
+                    </label>
+                    <input
+                      type="text"
+                      value={searchInput.ID}
+                      name="ID"
+                      onChange={CleanUna}
+                    />
+                  </div>
 
-            <div>
-              <label htmlFor="#" className="d-block">
-                caso
-              </label>
-              <input
-                type="text"
-                value={searchInput['N° CASO']}
-                name="N° CASO"
-                onChange={CleanUna}
-              />
-            </div>
+                  <div>
+                    <label htmlFor="#" className="d-block">
+                      caso
+                    </label>
+                    <input
+                      type="text"
+                      value={searchInput['N° CASO']}
+                      name="N° CASO"
+                      onChange={CleanUna}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <button onClick={buscarUna} className="btn btn-primary mt-2">
+                    Buscar
+                  </button>
 
-            <button onClick={buscarUna} className="btn btn-primary mt-2">
-              Buscar
-            </button>
-
-            <button className="btn btn-secondary mt-2" onClick={porUnaClear}>
-              Limpiar
-            </button>
-          </div>
-        </form>
+                  <button
+                    className="btn btn-secondary mt-2"
+                    onClick={porUnaClear}
+                  >
+                    Limpiar Todo
+                  </button>
+                </div>
+              </form>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </div>
 
       {casoBd && <Table casoBd={casoBd} input={input} />}

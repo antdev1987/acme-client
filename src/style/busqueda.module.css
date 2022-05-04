@@ -1,3 +1,4 @@
-.formBoxd > div {
-    flex-basis: 33.3%;
+
+.formBoxd select {
+    padding:5px;
 }
