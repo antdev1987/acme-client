@@ -11,6 +11,8 @@ import { Accordion } from 'react-bootstrap';
 
 LoadingOverlay.propTypes = undefined;
 
+let obj;
+
 const searches = [
   {
     title: 'UNIDAD REQUIRENTE',
@@ -47,6 +49,7 @@ const searches = [
     title: 'ESTADO',
     defaultOption: 'Todos los estados',
     optinos: [
+      { option: 'SOLO ACTIVOS' },
       { option: 'PREPARACIÓN' },
       { option: 'BASES Y ANEXOS' },
       { option: 'GESTION PORTAL' },
@@ -54,8 +57,8 @@ const searches = [
       { option: 'ADJUDICACIÓN/DESERCIÓN' },
       { option: 'CONTRATO' },
       { option: 'ORDEN DE COMPRA' },
-      { option: 'DERIVADO A DEPTO. CONTRATOS' },
       { option: 'TERMINADO' },
+      { option: 'DERIVADO A DEPTO. CONTRATOS' },
     ],
   },
 ];
@@ -72,10 +75,7 @@ const Busqueda = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { casoBd, isLoadingAppProvider, extraInfoBd } = useAppProvider();
 
-  const save = (e) => {
-    clearObj();
-    setMultiple({ [e.target.name]: e.target.value, ...multiple });
-  };
+ 
 
   const clearObj = () => {
     for (const item in multiple) {
@@ -85,19 +85,38 @@ const Busqueda = () => {
     }
   };
 
+  const save = (e) => {
+    clearObj();
+    setMultiple({...multiple, [e.target.name]: e.target.value });
+    console.log(multiple);
+  };
+
+  // console.log(casoBd);
   console.log('pagina busqueda');
 
   const buscar = (e) => {
     e.preventDefault();
-    setIsLoading(true);
     clearObj();
+    setIsLoading(true);
 
+    if (multiple.ESTADO === 'SOLO ACTIVOS') {
+      obj = {
+        ...multiple,
+        activo: 'SI',
+      };
+      delete obj.ESTADO;
+    } else {
+      obj = multiple;
+    }
+
+    
     setTimeout(() => {
-      setInput(_.filter(casoBd, { ...multiple }));
+      setInput(_.filter(casoBd, { ...obj }));
       setIsLoading(false);
-    }, 0);
+    }, 1000);
   };
 
+  
   const CleanUna = (e) => {
     const { name, value } = e.target;
 
@@ -114,6 +133,7 @@ const Busqueda = () => {
     e.preventDefault();
     let name;
     let value;
+    setIsLoading(true);
 
     if (searchInput.ID === '' && searchInput.NOMBRE === '') {
       name = 'N° CASO';
@@ -126,10 +146,13 @@ const Busqueda = () => {
       value = searchInput.ID;
     }
 
-    const filter = casoBd.filter((item) => {
-      return item[name].includes(value);
-    });
-    setInput(filter);
+    setTimeout(() => {
+      const filter = casoBd.filter((item) => {
+        return item[name].includes(value);
+      });
+      setInput(filter);
+      setIsLoading(false);
+    }, 1000);
   };
 
   const especial = (e) => {
@@ -138,11 +161,15 @@ const Busqueda = () => {
 
   const busquedaEspecial = (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const filter = casoBd.filter((item) => {
-      return item[busquedaUnica]?.includes('SI');
-    });
-    setInput(filter);
+    setTimeout(() => {
+      setIsLoading(false);
+      const filter = casoBd.filter((item) => {
+        return item[busquedaUnica]?.includes('SI');
+      });
+      setInput(filter);
+    }, 1000);
   };
 
   const porUnaClear = (e) => {
@@ -176,7 +203,9 @@ const Busqueda = () => {
       >
         <p>{input.length === 0 ? casoBd.length : input.length}</p>
 
-        <p className='text-danger border d-inline-block border-3 p-2'>La ultima actualizacion fue el {extraInfoBd.fechaHoraInfo}</p>
+        <p className="text-danger border d-inline-block border-3 p-2">
+          La ultima actualizacion fue el {extraInfoBd.fechaHoraInfo}
+        </p>
 
         <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
