@@ -29,7 +29,13 @@ const BaseDatos = () => {
     setIsLoading(true);
     setTimeout(() => {
       casos.forEach((item, idx) => {
-        //console.log(casos[idx])
+        
+        if(item.ESTADO === "DERIVADO A DEPTO. CONTRATOS" ){
+          casos[idx]["activo"] = "NO"
+        } else {
+          casos[idx]["activo"] = "SI"
+        }
+        
         casos[idx]["acciones"] = acciones.filter(
           (e) => e["N°deCaso"] === item["N° CASO"]
         );
