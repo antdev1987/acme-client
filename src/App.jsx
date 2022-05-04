@@ -12,6 +12,9 @@ import PrivateRouteUser from "./pages/permissions/PrivateRouteUser";
 import PublicRouteApp from "./pages/permissions/PublicRouteApp";
 import AdminUsers from "./pages/AdminUsers";
 import Mantencion from "./pages/Mantencion";
+import Alerta from "./pages/Alerta";
+import PanelControl from "./pages/PanelControl";
+import Reporte from "./pages/Reporte";
 
 const App = () => {
   return (
@@ -26,6 +29,9 @@ const App = () => {
 
             <Route element={<PrivateRouteUser />}>
               <Route path="/busqueda" element={<Busqueda />} />
+              <Route path='/alerta' element={<Alerta />}/>
+              <Route path='/panelcontrol' element={<PanelControl />}/>
+              <Route path='/reporte' element={<Reporte />}/>
             </Route>
 
             <Route element={<PrivateRouteAdmin />}>

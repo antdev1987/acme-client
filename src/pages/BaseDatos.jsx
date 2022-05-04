@@ -91,6 +91,8 @@ const BaseDatos = () => {
     e.preventDefault()
 
     updateExtraInfoAppfn({fechaHoraInfo:fechaHora})
+    setFechaHora('')
+
   }
 
   return (
@@ -147,6 +149,7 @@ const BaseDatos = () => {
               </label>
               <input
                 type="text"
+                value={fechaHora}
                 className="form-control"
                 id="exampleInputEmail1"
                 onChange={(e)=>setFechaHora(e.target.value)}

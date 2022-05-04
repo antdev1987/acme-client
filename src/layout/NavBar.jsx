@@ -24,6 +24,15 @@ const NavBar = () => {
               <Nav.Link as={NavLink} to="/busqueda">
                 Busqueda
               </Nav.Link>
+              <Nav.Link as={NavLink} to="/alerta">
+                Alerta
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/panelcontrol">
+                Panel de Control
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/reporte">
+                Reporte
+              </Nav.Link>
             </Nav>
             <Nav>
               <NavDropdown title={user.nombre} id="collasible-nav-dropdown">

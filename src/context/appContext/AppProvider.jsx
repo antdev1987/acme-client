@@ -117,6 +117,14 @@ export const AppProvider =props =>{
         try {
             const endPoint = `${import.meta.env.VITE_BASE_URL}/admin/extraInfo/add`
             const {data} = await axios.post(endPoint,bd,config)
+            setExtraInfoBd(data)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Fecha y Hora Actualizada',
+                showConfirmButton: false,
+                timer: 1500
+              })
             
         } catch (error) {
             console.log(error)
@@ -232,6 +240,7 @@ export const AppProvider =props =>{
 
 
     ///////////////////// the return ///////////////////////
+    console.log('en app provider')
     return (
         <AppContext.Provider
             value={{
