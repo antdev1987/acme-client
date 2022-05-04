@@ -10,7 +10,6 @@ import Table from '../components/Table/Table';
 
 import Style from '../style/busqueda.module.css';
 
-
 LoadingOverlay.propTypes = undefined;
 
 const ar = {};
@@ -159,7 +158,7 @@ const Busqueda = () => {
 
   return (
     <LoadingOverlay
-      className="w-100 vh-100"
+      className="w-100"
       active={isLoadingAppProvider || isLoading}
       spinner
       styles={{
@@ -272,7 +271,7 @@ const Busqueda = () => {
         </button>
       </div>
 
-      <Table casoBd={casoBd} input={input} />
+      {casoBd && <Table casoBd={casoBd} input={input} />}
     </LoadingOverlay>
   );
 };
