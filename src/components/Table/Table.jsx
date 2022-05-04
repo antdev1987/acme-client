@@ -23,6 +23,7 @@ function Table(props) {
       fileExtension: 'csv',
       mimeType: 'text/csv',
       columnHeaders: true,
+      exportHiddenColumns: true,
     });
   };
 
@@ -41,8 +42,16 @@ function Table(props) {
           columnSorting={true}
           mergeCells={true}
           contextMenu={['row_above', 'row_below']}
-          readOnly={false}
+          readOnly={true}
           manualColumnResize={true}
+          maxWidth="1200"
+          height="500"
+          className='text-dark'
+          // hiddenColumns= {{
+          //   columns: [1],
+          //   // show UI indicators to mark hidden columns
+          //   indicators: true
+          // }}
         >
           <HotColumn data="AÑO" title="AÑO" />
           <HotColumn data="ID" title="ID" readOnly={true} width={50} />
