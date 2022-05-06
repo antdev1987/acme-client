@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{memo} from 'react';
 
 import { HotTable, HotColumn } from '@handsontable/react';
 import { registerAllModules } from 'handsontable/registry';
@@ -26,7 +26,7 @@ function Table(props) {
   };
 
   console.log(hotTableComponent)
-
+  console.log('en table ')
   return (
     <div className="container-md pb-5">
       <button
@@ -89,4 +89,5 @@ function Table(props) {
   );
 }
 
-export default Table;
+export default memo(Table)
+//export default Table;

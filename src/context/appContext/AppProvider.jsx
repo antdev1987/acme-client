@@ -43,8 +43,12 @@ export const AppProvider =props =>{
     //este carga la base de datos de busqueda
     useEffect(()=>{
 
+        if(!user.hasOwnProperty('token')){
+            return
+        }
+        console.log('fuera de bd en effecto cargar bd')
         const obtenerBd = async()=>{
-
+            console.log('dentro de bd en effecto cargar bd')
             setIsLoadingAppProvider(true)
 
             const token = JSON.parse(localStorage.getItem('uid'))    
@@ -74,10 +78,17 @@ export const AppProvider =props =>{
 
     },[user])
 
-
+    console.log(user)
     //ESTE LEE LA FECHA DE ACTUALIZACION
     useEffect(()=>{
+        if(!user.hasOwnProperty('token')){
+            return
+        }
+
+        console.log(state.extraInfoBd)
+        console.log('fuera del effecto')
         const obtenerExtraInfo = async()=>{
+            console.log('dentro del effecto')
             const token =JSON.parse(localStorage.getItem('uid'))
             if(!token){
                 setUser('')
@@ -99,7 +110,7 @@ export const AppProvider =props =>{
         }
 
         obtenerExtraInfo()
-    },[])
+    },[user,state.extraInfoBd?.fechaHoraInfo])
 
 
     //este crear la fecha de actualizar que se ve en bunsqueda
